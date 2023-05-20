@@ -20,13 +20,21 @@ var dailyTemperatures = function (temperatures) {
 
   for (let i = 0; i < len; i++) {
     let counter = 0;
+
+    if (temperatures[i] < temperatures[i + 1]) {
+      output.push(1);
+      continue;
+    }
     for (let j = i + 1; j < len; j++) {
-      if (temperatures[i] > temperatures[j]) {
+      if (temperatures[i] >= temperatures[j]) {
         counter += 1;
       }
       if (temperatures[i] < temperatures[j]) {
         counter += 1;
         break;
+      }
+      if (j === len - 1) {
+        counter = 0;
       }
     }
     output.push(counter);
