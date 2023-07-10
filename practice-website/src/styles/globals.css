@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: black;
+  background-color: rgb(75, 79, 91);
+}
+
+.greeting {
+  margin-top: 20px;
+  font-size: 24px
+}
+
+button {
+  background-color: beige;
+  margin-left: 10px;
+  width: 60px;
+  border-radius: 5px;
+}
+
+input {
+  border-radius: 5px;
+}
+
+
