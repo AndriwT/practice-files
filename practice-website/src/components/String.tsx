@@ -35,17 +35,19 @@ const StringInput = () => {
 
   return (
     <div>
-      <h1>Enter your Name:</h1>
-      <input
-        placeholder="Name"
-        value={value}
-        onKeyDown={handleKeyDown}
-        onChange={handleChange}
-      />
-      <button onClick={greetings}>Greet</button>
-      <button onClick={reverseValue}>Reverse</button>
-      <h1 className="greeting">{name}</h1>
-      <h1 className="greeting">{reverse}</h1>
+      <div>
+        <h1>Enter your Name:</h1>
+        <input
+          placeholder="Name"
+          value={value}
+          onKeyDown={handleKeyDown}
+          onChange={handleChange}
+        />
+        <button onClick={greetings}>Greet</button>
+        <button onClick={reverseValue}>Reverse</button>
+        <h1 className="greeting">{name}</h1>
+        <h1 className="greeting">{reverse}</h1>
+      </div>
     </div>
   );
 };
