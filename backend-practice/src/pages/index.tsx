@@ -12,13 +12,13 @@ import {
   getDocs,
 } from "@firebase/firestore";
 
-const todosCollection = collection(firestore, "todos");
-
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [todos, setTodos] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const todosCollection = collection(firestore, "todos");
 
   const getTodos = async () => {
     const todosQuery = query(
