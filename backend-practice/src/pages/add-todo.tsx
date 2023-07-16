@@ -68,6 +68,7 @@ const AddTodo: NextPage = () => {
             <label>Title</label>
             <input
               type="text"
+              value={title}
               placeholder="Todo title"
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -75,6 +76,7 @@ const AddTodo: NextPage = () => {
           <div>
             <label>Description</label>
             <textarea
+              value={description}
               placeholder="Todo description"
               onChange={(e) => setDescription(e.target.value)}
             />

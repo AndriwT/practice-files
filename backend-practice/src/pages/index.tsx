@@ -6,6 +6,9 @@ import {
   collection,
   QueryDocumentSnapshot,
   DocumentData,
+  doc,
+  updateDoc,
+  deleteDoc,
   query,
   where,
   limit,
@@ -45,6 +48,24 @@ export default function Home() {
     }, 2000);
   }, []);
 
+  const updateTodo = async (documentId: string) => {
+    const _todo = doc(firestore, `todos/${documentId}`);
+
+    await updateDoc(_todo, {
+      done: true,
+    });
+
+    getTodos();
+  };
+
+  const deleteTodo = async (documentId: string) => {
+    const _todo = doc(firestore, `todos/${documentId}`);
+
+    await deleteDoc(_todo);
+
+    getTodos();
+  };
+
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -66,11 +87,15 @@ export default function Home() {
           todos.map((todo) => {
             return (
               <div>
-                <h2>{todo.data.arguments["title"]}</h2>
-                <p>{todo.data.arguments["description"]}</p>
+                <h2>{todo.data().title}</h2>
+                <p>{todo.data().description}</p>
                 <div>
-                  <button type="button">Mark as done</button>
-                  <button type="button">Delete</button>
+                  <button onClick={() => updateTodo(todo.id)} type="button">
+                    Mark as done
+                  </button>
+                  <button onClick={() => deleteTodo(todo.id)} type="button">
+                    Delete
+                  </button>
                 </div>
               </div>
             );
