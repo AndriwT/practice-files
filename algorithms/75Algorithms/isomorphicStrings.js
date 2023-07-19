@@ -22,10 +22,10 @@ var isIsomorphic = function (s, t) {
     return false;
   }
 
-  let sHashMap = {};
-  let tHashMap = {};
+  let sHashMap = {}; // { e: 1, g: 3 }
+  let tHashMap = {}; // { a: 1, d: 3  }
 
-  let count = 0;
+  let count = 0; // 2
   while (count <= s.length - 1) {
     if (sHashMap[s[count]] !== tHashMap[t[count]]) {
       return false;
