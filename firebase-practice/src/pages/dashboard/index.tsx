@@ -1,3 +1,4 @@
+import { User, getAuth, signOut } from "firebase/auth";
 import { ChangeEvent, useState } from "react";
 
 interface Tweet {
@@ -6,7 +7,7 @@ interface Tweet {
   timestamp: number;
 }
 
-export default function Dashboard() {
+export default function Dashboard({ user }: { user: User | null }) {
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState<Tweet[]>([]);
 
@@ -30,8 +31,24 @@ export default function Dashboard() {
     }
   };
 
+  const logOut = () => {
+    const auth = getAuth();
+
+    if (user) {
+      signOut(auth) // Call the Firebase signOut method passing the authentication instance
+        .then(() => {
+          // Successfully signed out, redirect or handle user state accordingly
+          window.location.href = "/login"; // Redirect to the login page or any other appropriate page
+        })
+        .catch((error) => {
+          // Handle any errors that occurred during sign out
+          console.error("Sign out error:", error);
+        });
+    }
+  };
+
   return (
-    <main className="flex  flex-col  mt-10">
+    <main className="flex  flex-col  justify-center items-center mt-10">
       <div className="flex justify-center">
         <input
           className="flex justify-center rounded-l-md shadow-md p-4"
@@ -59,6 +76,13 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
+
+      <button
+        className="mt-5 bg-red-500 text-white text-center rounded-md shadow-md p-4 w-48"
+        onClick={logOut}
+      >
+        Log Out
+      </button>
     </main>
   );
 }
