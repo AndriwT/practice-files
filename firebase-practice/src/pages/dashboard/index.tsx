@@ -1,8 +1,24 @@
 import { User, getAuth, signOut } from "firebase/auth";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import {
+  CollectionReference,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getFirestore,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { app } from "../_app";
+import uuid from "react-uuid";
+
+const db = getFirestore(app);
 
 interface Tweet {
   id: number;
+  userId: string;
   text: string;
   timestamp: number;
 }
@@ -11,25 +27,72 @@ export default function Dashboard({ user }: { user: User | null }) {
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState<Tweet[]>([]);
 
+  async function getTweets() {
+    const tweetsRef = collection(db, "tweets");
+
+    const queryItems = query(tweetsRef, where("userId", "==", user?.uid));
+    const querySnapshot = await getDocs(queryItems);
+
+    const fetchedTweets: Tweet[] = [];
+    querySnapshot.forEach((item) => {
+      const itemData = item.data() as Tweet;
+      fetchedTweets.push(itemData);
+    });
+    fetchedTweets.sort(); // --------------------------> Sorting tweets, make sure it works
+    setTweets(fetchedTweets);
+  }
+
+  useEffect(() => {
+    getTweets();
+  }, []);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTweet(e.target.value);
   };
 
-  const handleClick = () => {
+  // const handleClick = () => {
+  //   if (!tweet) {
+  //     alert("Nothing to say?");
+  //   } else {
+  //     const newTweet = {
+  //       id: Date.now(),
+  //       text: tweet,
+  //       timestamp: Date.now(),
+  //     };
+
+  //     setTweets([...tweets, newTweet]);
+
+  //     setTweet("");
+  //   }
+  // };
+
+  async function handleTweet() {
+    const id = uuid();
     if (!tweet) {
       alert("Nothing to say?");
     } else {
-      const newTweet = {
-        id: Date.now(),
+      await setDoc(doc(db, "tweets", id), {
+        id,
+        userId: user?.uid,
         text: tweet,
         timestamp: Date.now(),
-      };
-
-      setTweets([...tweets, newTweet]);
-
-      setTweet("");
+      });
     }
-  };
+    await getTweets();
+    setTweet("");
+  }
+
+  async function deleteTweet(tweet: any) {
+    const tweetsRef = collection(db, "tweets");
+    const queryItems = query(tweetsRef, where("id", "==", tweet?.id));
+    const querySnapshot = await getDocs(queryItems);
+
+    querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
+
+    getTweets();
+  }
 
   const logOut = () => {
     const auth = getAuth();
@@ -58,7 +121,7 @@ export default function Dashboard({ user }: { user: User | null }) {
         />
         <button
           className="bg-red-500 text-white w-20 rounded-r-md shadow-md"
-          onClick={handleClick}
+          onClick={handleTweet}
         >
           Tweet
         </button>
@@ -73,6 +136,7 @@ export default function Dashboard({ user }: { user: User | null }) {
             <p className="text-gray-400 text-xs flex flex-col mr-4">
               {new Date(tweet.timestamp).toLocaleString()}
             </p>
+            <button onClick={() => deleteTweet(tweet)}>x</button>
           </div>
         ))}
       </div>

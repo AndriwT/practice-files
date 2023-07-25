@@ -37,12 +37,14 @@ export default function Login() {
       <div className="flex flex-col justify-center items-center mt-10 w-60">
         <input
           className="flex justify-center rounded-md shadow-md p-2 mt-4"
+          type="email"
           onChange={onEmailChange}
           value={email}
           placeholder="Email..."
         />
         <input
           className="flex justify-center rounded-md shadow-md p-2 mt-4"
+          type="password"
           onChange={onPasswordChange}
           value={password}
           placeholder="Password..."
