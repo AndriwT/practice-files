@@ -111,7 +111,7 @@ export default function Dashboard({ user }: { user: User | null }) {
   };
 
   return (
-    <main className="flex  flex-col  justify-center items-center mt-10">
+    <main className="flex flex-col  justify-center items-center mt-10">
       <div className="flex justify-center">
         <input
           className="flex justify-center rounded-l-md shadow-md p-4"
