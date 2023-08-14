@@ -25,3 +25,41 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  direction: flex;
+  text-align: center;
+  background: gray;
+  width: 200px;
+  height: 10rem;
+  margin: 3rem 3rem 3rem 3rem;
+
+}
+
+.click-button {
+  background: gray;
+width: 7rem;
+height: 3rem;
+
+}
+
+@media (max-width: 500px) {
+  .container {
+    background: red;
+    width: 300px;
+    margin: 1rem 3rem 3rem 3rem;
+  }
+  .main-container {
+    flex-direction: column;
+  }
+  .click-button {
+    background: darkgray;
+    width: 18rem;
+  }
+}
